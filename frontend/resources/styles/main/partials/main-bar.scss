@@ -8,7 +8,6 @@
 .main-bar {
   align-items: center;
   background-color: $color-white;
-  border-bottom: 1px solid $color-gray-10;
   display: flex;
   height: 40px;
   padding: $x-small $small;
@@ -35,8 +34,6 @@
 }
 
 .main-logo {
-  border-right: 1px solid $color-gray-10;
-  border-bottom: 1px solid $color-gray-10;
   text-align: center;
   padding-top: $x-small;
 
@@ -101,8 +98,6 @@
 
 .user-zone {
   align-items: center;
-  border-right: 1px solid $color-gray-10;
-  border-bottom: 1px solid $color-gray-10;
   cursor: pointer;
   display: flex;
   padding: 0 $x-small 0 $small;
