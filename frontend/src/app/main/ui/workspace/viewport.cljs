@@ -20,6 +20,7 @@
    [app.common.data :as d]
    [app.main.constants :as c]
    [app.main.data.workspace :as dw]
+   [app.main.data.workspace.libraries :as dwl]
    [app.main.data.workspace.drawing :as dd]
    [app.main.refs :as refs]
    [app.main.store :as st]
@@ -342,6 +343,7 @@
         on-drag-enter
         (fn [e]
           (when (or (dnd/has-type? e "app/shape")
+                    (dnd/has-type? e "app/component")
                     (dnd/has-type? e "Files")
                     (dnd/has-type? e "text/uri-list"))
             (dom/prevent-default e)))
@@ -349,6 +351,7 @@
         on-drag-over
         (fn [e]
           (when (or (dnd/has-type? e "app/shape")
+                    (dnd/has-type? e "app/component")
                     (dnd/has-type? e "Files")
                     (dnd/has-type? e "text/uri-list"))
             (dom/prevent-default e)))
@@ -379,6 +382,10 @@
               (st/emit! (dw/add-shape (-> shape
                                           (assoc :x final-x)
                                           (assoc :y final-y)))))
+
+            (dnd/has-type? event "app/component")
+            (let [component-id (dnd/get-data event "app/component")]
+              (st/emit! (dwl/instantiate-component component-id)))
 
             (dnd/has-type? event "text/uri-list")
             (let [data (dnd/get-data event "text/uri-list")

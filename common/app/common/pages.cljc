@@ -323,6 +323,9 @@
 (defmethod change-spec :del-component [_]
   (s/keys :req-un [::id]))
 
+(defmethod change-spec :update-component [_]
+  (s/keys :req-un [::id ::shapes]))
+
 (defmethod change-spec :sync-library [_]
   (s/keys :req-un [::id]))
 
@@ -738,6 +741,51 @@
   [data {:keys [id]}]
   (d/dissoc-in data [:components id]))
 
+(declare sync-component-shape)
+
+(defmethod process-change :update-component
+  [data {:keys [id shapes]}]
+  (let [sync-component
+        (fn [component]
+          (update component :objects
+                  #(d/mapm (partial sync-component-shape shapes) %)))]
+
+  (update-in data [:components id] sync-component)))
+
+(defn- sync-component-shape
+  [new-shapes _ component-shape]
+  (let [shape (d/seek #(= (:shape-ref %) (:id component-shape)) new-shapes)]
+    (if (nil? shape)
+      component-shape
+      (-> component-shape
+          (d/assoc-when :content (:content shape))
+          (d/assoc-when :fill-color (:fill-color shape))
+          (d/assoc-when :fill-color-ref-file (:fill-color-ref-file shape))
+          (d/assoc-when :fill-color-ref-id (:fill-color-ref-id shape))
+          (d/assoc-when :fill-opacity (:fill-opacity shape))
+          (d/assoc-when :font-family (:font-family shape))
+          (d/assoc-when :font-size (:font-size shape))
+          (d/assoc-when :font-style (:font-style shape))
+          (d/assoc-when :font-weight (:font-weight shape))
+          (d/assoc-when :letter-spacing (:letter-spacing shape))
+          (d/assoc-when :line-height (:line-height shape))
+          (d/assoc-when :proportion (:proportion shape))
+          (d/assoc-when :rx (:rx shape))
+          (d/assoc-when :ry (:ry shape))
+          (d/assoc-when :stroke-color (:stroke-color shape))
+          (d/assoc-when :stroke-color-ref-file (:stroke-color-ref-file shape))
+          (d/assoc-when :stroke-color-ref-id (:stroke-color-ref-id shape))
+          (d/assoc-when :stroke-opacity (:stroke-opacity shape))
+          (d/assoc-when :stroke-style (:stroke-style shape))
+          (d/assoc-when :stroke-width (:stroke-width shape))
+          (d/assoc-when :stroke-alignment (:stroke-alignment shape))
+          (d/assoc-when :text-align (:text-align shape))
+          (d/assoc-when :width (:width shape))
+          (d/assoc-when :height (:height shape))
+          (d/assoc-when :interactions (:interactions shape))
+          (d/assoc-when :selrect (:selrect shape))
+          (d/assoc-when :points (:points shape))))))
+
 (declare sync-page)
 (declare sync-shape-and-children)
 (declare sync-shape)
@@ -780,38 +828,32 @@
     (if (nil? component-shape)
       (assoc shape :shape-ref nil)
       (-> shape
-          (d/update-when :content :content component-shape)
-          (d/update-when :fill-color :fill-color component-shape)
-          (d/update-when :fill-color-ref-file :fill-color-ref-file component-shape)
-          (d/update-when :fill-color-ref-id :fill-color-ref-id component-shape)
-          (d/update-when :fill-opacity :fill-opacity component-shape)
-          (d/update-when :font-family :font-family component-shape)
-          (d/update-when :font-size :font-size component-shape)
-          (d/update-when :font-style :font-style component-shape)
-          (d/update-when :font-weight :font-weight component-shape)
-          (d/update-when :letter-spacing :letter-spacing component-shape)
-          (d/update-when :line-height :line-height component-shape)
-          (d/update-when :proportion :proportion component-shape)
-          (d/update-when :rx :rx component-shape)
-          (d/update-when :ry :ry component-shape)
-          (d/update-when :cx :cx component-shape)
-          (d/update-when :cy :cy component-shape)
-          (d/update-when :x :x component-shape)
-          (d/update-when :y :y component-shape)
-          (d/update-when :exports :exports component-shape)
-          (d/update-when :stroke-color :stroke-color component-shape)
-          (d/update-when :stroke-color-ref-file :stroke-color-ref-file component-shape)
-          (d/update-when :stroke-color-ref-id :stroke-color-ref-id component-shape)
-          (d/update-when :stroke-opacity :stroke-opacity component-shape)
-          (d/update-when :stroke-style :stroke-style component-shape)
-          (d/update-when :stroke-width :stroke-width component-shape)
-          (d/update-when :stroke-alignment :stroke-alignment component-shape)
-          (d/update-when :text-align :text-align component-shape)
-          (d/update-when :width :width component-shape)
-          (d/update-when :height :height component-shape)
-          (d/update-when :interactions :interactions component-shape)
-          (d/update-when :selrect :selrect component-shape)
-          (d/update-when :points :points component-shape)))))
+          (d/assoc-when :content (:content component-shape))
+          (d/assoc-when :fill-color (:fill-color component-shape))
+          (d/assoc-when :fill-color-ref-file (:fill-color-ref-file component-shape))
+          (d/assoc-when :fill-color-ref-id (:fill-color-ref-id component-shape))
+          (d/assoc-when :fill-opacity (:fill-opacity component-shape))
+          (d/assoc-when :font-family (:font-family component-shape))
+          (d/assoc-when :font-size (:font-size component-shape))
+          (d/assoc-when :font-style (:font-style component-shape))
+          (d/assoc-when :font-weight (:font-weight component-shape))
+          (d/assoc-when :letter-spacing (:letter-spacing component-shape))
+          (d/assoc-when :line-height (:line-height component-shape))
+          (d/assoc-when :proportion (:proportion component-shape))
+          (d/assoc-when :rx (:rx component-shape))
+          (d/assoc-when :ry (:ry component-shape))
+          (d/assoc-when :stroke-color (:stroke-color component-shape))
+          (d/assoc-when :stroke-color-ref-file (:stroke-color-ref-file component-shape))
+          (d/assoc-when :stroke-color-ref-id (:stroke-color-ref-id component-shape))
+          (d/assoc-when :stroke-opacity (:stroke-opacity component-shape))
+          (d/assoc-when :stroke-style (:stroke-style component-shape))
+          (d/assoc-when :stroke-width (:stroke-width component-shape))
+          (d/assoc-when :stroke-alignment (:stroke-alignment component-shape))
+          (d/assoc-when :text-align (:text-align component-shape))
+          (d/assoc-when :width (:width component-shape))
+          (d/assoc-when :height (:height component-shape))
+          (d/assoc-when :interactions (:interactions component-shape))
+          (d/assoc-when :points (:points component-shape))))))
 
 (defmethod process-operation :set
   [shape op]
