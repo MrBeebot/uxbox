@@ -9,7 +9,7 @@
   align-items: center;
   background-color: $color-white;
   display: flex;
-  height: 40px;
+  height: 50px;
   padding: $x-small $small;
   position: relative;
   z-index: 10;
@@ -34,12 +34,12 @@
 
 .main-logo {
   text-align: center;
-  padding-top: $x-small;
+  padding: $small;
 
   svg {
     fill: $color-black;
     height: 30px;
-    width: 30px;
+    width: 90px;
   }
 }
 
@@ -99,15 +99,15 @@
   align-items: center;
   cursor: pointer;
   display: flex;
-  padding: 0 $x-small 0 $small;
+  padding: $small;
   position: relative;
-  width: 180px;
 
   span {
     @include text-ellipsis;
     color: $color-black;
     margin: $small;
     font-size: $fs12;
+    max-width: 135px;
   }
 
   img {
@@ -119,15 +119,15 @@
 
   ul.profile-menu {
     position: absolute;
-    top: 0;
-    left: 0;
+    bottom: 0;
+    left: 17%;
     z-index: 12;
-    width: 180px;
+    width: 170px;
     background-color: $color-gray-60;
     border-radius: $br-small;
     padding: 0 $small;
 
-    @include animation(0,.2s,fadeInDown);
+    @include animation(0,.2s,fadeInUp);
 
     li {
       font-size: $fs13;

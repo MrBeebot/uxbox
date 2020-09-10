@@ -24,6 +24,7 @@
    [app.main.ui.keyboard :as kbd]
    [app.main.ui.modal :as modal]
    [app.util.dom :as dom]
+   [app.main.ui.dashboard.profile :refer [profile-section]]
    [app.util.i18n :as i18n :refer [t tr]]
    [app.util.router :as rt]
    [app.util.time :as dt]))
@@ -77,7 +78,6 @@
                                :on-key-down on-keyup}]
         [:span.close {:on-click on-cancel} i/close]]
        [:*
-        i/folder
         [:span.element-title name]])]))
 
 (def projects-iref
@@ -198,4 +198,7 @@
                         :selected-project-id project-id
                         :selected-section section
                         :profile profile
-                        :team-id (:default-team-id profile)}]]]))
+                        :team-id (:default-team-id profile)}]
+                        
+      [:& profile-section {:profile profile}]
+     ]]))

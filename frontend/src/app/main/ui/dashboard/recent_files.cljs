@@ -59,6 +59,7 @@
                                                                                          :project-id project-id}))
                                         :style {:cursor "pointer"}} (:name project)]
       [:span.recent-files-row-title-info (str file-count " files")]
+      [:a.btn-secondary.btn-small (t locale "ds.new-file")]
       (when (> file-count 0)
         (let [time (-> (:modified-at project)
                        (dt/timeago {:locale locale}))]

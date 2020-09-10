@@ -22,7 +22,6 @@
    [app.main.ui.dashboard.project :refer [project-page]]
    [app.main.ui.dashboard.recent-files :refer [recent-files-page]]
    [app.main.ui.dashboard.libraries :refer [libraries-page]]
-   [app.main.ui.dashboard.profile :refer [profile-section]]
    [app.util.router :as rt]
    [app.util.i18n :as i18n :refer [t]]))
 
@@ -65,8 +64,7 @@
      [:section.dashboard-layout
       [:div.main-logo
         [:a {:on-click #(st/emit! (rt/nav :dashboard-team {:team-id team-id}))}
-         i/logo-icon]]
-      [:& profile-section {:profile profile}]
+         i/logo]]
       [:& sidebar {:team-id team-id
                    :project-id project-id
                    :section page

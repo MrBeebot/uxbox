@@ -52,7 +52,7 @@
         on-delete #(modal/show! confirm-dialog {:on-accept delete-fn})]
     [:header.main-bar
      (if (:is-default project)
-       [:h1.dashboard-title (t locale "dashboard.header.draft")]
+       [:h1.dashboard-title (t locale "dashboard.header.drafts")]
        [:*
         [:h1.dashboard-title (t locale "dashboard.header.project" (:name project))]
         [:div.main-bar-icon {:on-click on-menu-click} i/arrow-down]

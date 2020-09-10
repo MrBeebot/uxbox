@@ -12,14 +12,19 @@
 }
 
 .recent-files-row-title {
+  align-items: center;
   background: $color-white;
   border-radius: $br-small;
   display: flex;
   flex-direction: row;
   margin-left: $medium;
   margin-top: $medium;
-  padding: $small;
+  padding: $x-small $x-small $x-small $small;
   width: fit-content;
+
+  .btn-secondary {
+    margin-left: $big;
+  }
 }
 
 .recent-files-row-title-name, .recent-files-row-title-info {

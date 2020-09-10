@@ -11,16 +11,16 @@
   .sidebar-team {
     display: flex;
     flex-direction: column;
-    padding: 0;
     height: 100%;
-    padding-bottom: 2.8rem;
+    overflow-y: auto;
+    padding: 0;
   }
 
   .dashboard-sidebar-inside {
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding-top: $size-3;
+    padding-top: $size-2;
 
     .dashboard-elements {
       display: flex;
@@ -71,6 +71,8 @@
         }
 
         & .edit-wrapper {
+            border: 1px solid $color-gray-10;
+            border-radius: $br-small;
             display: flex;
         }
 
@@ -130,10 +132,10 @@
 
 .projects-row {
   align-items: center;
-  border-top: 1px solid $color-gray-10;
   display: flex;
   margin-top: 1rem;
   padding: $size-2;
+  position: relative;
 
   span {
     color: $color-gray-30;
@@ -142,6 +144,17 @@
 
   .btn-icon-light {
     margin-left: auto;
+  }
+
+  &::before {
+    background-color: $color-gray-10;
+    content: "";
+    height: 1px;
+    left: 4%;
+    position: absolute;
+    right: 4%;
+    top: -5px;
+    width: 92%;
   }
 }
 
@@ -157,7 +170,7 @@
     border: 0;
     color: $color-gray-60;
     font-size: $fs14;
-    padding: 4px 8px;
+    padding: 6px;
     margin: 0;
     max-width: 170px;
     width: 100%;
