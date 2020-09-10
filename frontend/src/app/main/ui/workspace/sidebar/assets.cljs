@@ -51,8 +51,8 @@
         (mf/use-callback
          (mf/deps state)
          (fn []
-           (let [params {:id (:component-id @state)}]
-             (st/emit! (dwl/delete-component params)))))
+           (st/emit! (dwl/delete-component {:id (:component-id @state)}))
+           (st/emit! (dwl/sync-file {:file-id nil}))))
 
         on-context-menu
         (mf/use-callback
@@ -71,7 +71,8 @@
         on-drag-start
         (mf/use-callback
          (fn [component-id event]
-           (dnd/set-data! event "app/component" component-id)
+           (dnd/set-data! event "app/component" {:file-id file-id
+                                                 :component-id component-id})
            (dnd/set-allowed-effect! event "move")))]
 
     [:div.asset-group

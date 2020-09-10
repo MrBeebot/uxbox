@@ -63,8 +63,10 @@
         do-remove-group #(st/emit! dw/ungroup-selected)
         do-add-component #(st/emit! dwl/add-component)
         do-detach-component #(st/emit! (dwl/detach-component id))
-        do-reset-component #(st/emit! (dwl/reset-component id))
-        do-update-component #(st/emit! (dwl/update-component id))]
+        do-reset-component #((st/emit! (dwl/reset-component id)))
+        do-update-component #(do
+                               (st/emit! (dwl/update-component id))
+                               (st/emit! (dwl/sync-file {:file-id nil})))]
     [:*
      [:& menu-entry {:title "Copy"
                      :shortcut "Ctrl + c"

@@ -38,6 +38,9 @@
 (s/def ::string string?)
 (s/def ::type keyword?)
 (s/def ::uuid uuid?)
+(s/def ::component-id uuid?)
+(s/def ::component-file uuid?)
+(s/def ::shape-ref uuid?)
 
 ;; Page Options
 
@@ -177,7 +180,10 @@
 
 (s/def ::shape
   (s/and ::minimal-shape ::shape-attrs
-         (s/keys :opt-un [::id])))
+         (s/keys :opt-un [::id
+                          ::component-id
+                          ::component-file
+                          ::shape-ref])))
 
 (s/def :internal.page/objects (s/map-of uuid? ::shape))
 
@@ -324,7 +330,7 @@
   (s/keys :req-un [::id]))
 
 (defmethod change-spec :update-component [_]
-  (s/keys :req-un [::id ::shapes]))
+  (s/keys :req-un [::id ::name ::shapes]))
 
 (defmethod change-spec :sync-library [_]
   (s/keys :req-un [::id]))
@@ -741,50 +747,12 @@
   [data {:keys [id]}]
   (d/dissoc-in data [:components id]))
 
-(declare sync-component-shape)
-
 (defmethod process-change :update-component
-  [data {:keys [id shapes]}]
-  (let [sync-component
-        (fn [component]
-          (update component :objects
-                  #(d/mapm (partial sync-component-shape shapes) %)))]
-
-  (update-in data [:components id] sync-component)))
-
-(defn- sync-component-shape
-  [new-shapes _ component-shape]
-  (let [shape (d/seek #(= (:shape-ref %) (:id component-shape)) new-shapes)]
-    (if (nil? shape)
-      component-shape
-      (-> component-shape
-          (d/assoc-when :content (:content shape))
-          (d/assoc-when :fill-color (:fill-color shape))
-          (d/assoc-when :fill-color-ref-file (:fill-color-ref-file shape))
-          (d/assoc-when :fill-color-ref-id (:fill-color-ref-id shape))
-          (d/assoc-when :fill-opacity (:fill-opacity shape))
-          (d/assoc-when :font-family (:font-family shape))
-          (d/assoc-when :font-size (:font-size shape))
-          (d/assoc-when :font-style (:font-style shape))
-          (d/assoc-when :font-weight (:font-weight shape))
-          (d/assoc-when :letter-spacing (:letter-spacing shape))
-          (d/assoc-when :line-height (:line-height shape))
-          (d/assoc-when :proportion (:proportion shape))
-          (d/assoc-when :rx (:rx shape))
-          (d/assoc-when :ry (:ry shape))
-          (d/assoc-when :stroke-color (:stroke-color shape))
-          (d/assoc-when :stroke-color-ref-file (:stroke-color-ref-file shape))
-          (d/assoc-when :stroke-color-ref-id (:stroke-color-ref-id shape))
-          (d/assoc-when :stroke-opacity (:stroke-opacity shape))
-          (d/assoc-when :stroke-style (:stroke-style shape))
-          (d/assoc-when :stroke-width (:stroke-width shape))
-          (d/assoc-when :stroke-alignment (:stroke-alignment shape))
-          (d/assoc-when :text-align (:text-align shape))
-          (d/assoc-when :width (:width shape))
-          (d/assoc-when :height (:height shape))
-          (d/assoc-when :interactions (:interactions shape))
-          (d/assoc-when :selrect (:selrect shape))
-          (d/assoc-when :points (:points shape))))))
+  [data {:keys [id name shapes]}]
+  (update-in data [:components id]
+             #(assoc %
+                     :name name
+                     :objects (d/index-by :id shapes))))
 
 (declare sync-page)
 (declare sync-shape-and-children)
