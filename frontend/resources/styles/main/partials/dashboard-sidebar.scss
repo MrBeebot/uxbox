@@ -74,6 +74,7 @@
             border: 1px solid $color-gray-10;
             border-radius: $br-small;
             display: flex;
+            width: 100%;
         }
 
         input.element-title {
@@ -186,8 +187,9 @@
     cursor: pointer;
     display: flex;
     height: 22px;
-    padding: 0 5px;
-    width: 22px;
+    margin-left: auto;
+    padding: 0 $small;
+    width: 32px;
 
     svg {
       fill: $color-gray-30;
