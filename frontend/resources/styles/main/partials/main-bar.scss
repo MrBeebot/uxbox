@@ -11,7 +11,6 @@
   display: flex;
   height: 40px;
   padding: $x-small $small;
-  padding-left: $x-big;
   position: relative;
   z-index: 10;
 
@@ -79,7 +78,7 @@
 .dashboard-title {
   color: $color-black;
   display: flex;
-  font-size: $fs15;
+  font-size: $fs16;
 }
 
 .main-bar-icon {

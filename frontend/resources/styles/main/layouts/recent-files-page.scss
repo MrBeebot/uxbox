@@ -8,19 +8,18 @@
 }
 
 .recent-files-row {
-  padding: 1rem;
-  border-top: 1px solid $color-gray-10;
-
-  &.first {
-    border-top: none;
-  }
+  margin-bottom: $medium;
 }
 
 .recent-files-row-title {
+  background: $color-white;
+  border-radius: $br-small;
   display: flex;
   flex-direction: row;
   margin-left: $medium;
   margin-top: $medium;
+  padding: $small;
+  width: fit-content;
 }
 
 .recent-files-row-title-name, .recent-files-row-title-info {

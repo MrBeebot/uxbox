@@ -11,7 +11,7 @@
   .sidebar-team {
     display: flex;
     flex-direction: column;
-    padding: $size-4 0;
+    padding: 0;
     height: 100%;
     padding-bottom: 2.8rem;
   }
@@ -20,6 +20,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    padding-top: $size-3;
 
     .dashboard-elements {
       display: flex;
@@ -52,6 +53,15 @@
           overflow-x: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+        }
+
+        &::before {
+          background-color: transparent;
+          border-radius: $br-small;
+          content: "";
+          height: 26px;
+          margin-right: $x-small;
+          width: 4px;
         }
   
         &.recent-projects {
@@ -92,10 +102,18 @@
           font-style: italic;
         }
 
-        &:hover,
+        &:hover {
+          &::before {
+            background-color: $color-gray-10;
+          }
+        }
+
         &.current {
-          background-color: $color-primary-lighter;
-          color: $color-gray-60;
+          font-weight: bold;
+
+          &::before {
+            background-color: $color-primary;
+          }
         }
       }
     }
@@ -112,6 +130,7 @@
 
 .projects-row {
   align-items: center;
+  border-top: 1px solid $color-gray-10;
   display: flex;
   margin-top: 1rem;
   padding: $size-2;
@@ -129,6 +148,7 @@
 .dashboard-search {
   align-items: center;
   border: 1px solid $color-gray-10;
+  border-radius: $br-small;
   display: flex;
   margin: $size-2;
   
